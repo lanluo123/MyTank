@@ -7,38 +7,47 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import org.omg.CORBA.INTERNAL;
+
 public class TF extends Frame {
-	
+
 	int x = 200, y = 200;
-	
+	private Dir dir = Dir.DOWN;
+
+	private static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+	private static final int SPPED = 50;
+
 	public TF() {
-		setSize(800, 600);
+		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
 		setTitle("tank war");
 		setVisible(true);
-		
-		this.addKeyListener(new MyKeyListener());
-		
-		addWindowListener(new WindowAdapter() {
 
+		this.addKeyListener(new MyKeyListener());
+		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
-			
+
 		});
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		g.fillRect(x, y, 50, 50);
-		//x += 10;
-		//y += 10;
+		if (dir == Dir.DOWN)
+			y += SPPED;
+		if (dir == Dir.UP)
+			y -= SPPED;
+		if (dir == Dir.LEFT)
+			x -= SPPED;
+		if (dir == Dir.RIGHT)
+			x += SPPED;
 	}
-	
-	
+
 	class MyKeyListener extends KeyAdapter {
-		
+
 		boolean bL = false;
 		boolean bU = false;
 		boolean bR = false;
@@ -64,21 +73,18 @@ public class TF extends Frame {
 			default:
 				break;
 			}
-			if (bU) {
-				y-=10;
-			}
-			if (bD) {
-				y+=10;
-			}
-			if (bL) {
-				x-=10;
-			}
-			if (bR) {
-				x+=10;
-			}
-			
-			repaint();
-			
+			seMovDir();
+		}
+
+		private void seMovDir() {
+			if (bD)
+				dir = Dir.DOWN;
+			if (bL)
+				dir = Dir.LEFT;
+			if (bR)
+				dir = Dir.RIGHT;
+			if (bU)
+				dir = Dir.UP;
 		}
 
 		@Override
@@ -97,13 +103,12 @@ public class TF extends Frame {
 			case KeyEvent.VK_DOWN:
 				bD = false;
 				break;
-
 			default:
 				break;
 			}
+			seMovDir();
 		}
-		
+
 	}
-	
-	
+
 }
