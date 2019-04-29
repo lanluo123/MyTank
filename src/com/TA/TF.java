@@ -1,19 +1,23 @@
 package com.TA;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.List;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import org.omg.CORBA.INTERNAL;
 
 public class TF extends Frame {
 
-	private static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
-	Tank tank=new Tank(20,30,Dir.DOWN);
-
+	public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+	Tank tank=new Tank(20,30,Dir.DOWN,this);
+	ArrayList<Bullet> bullets=new ArrayList<>();
 	public TF() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
@@ -27,15 +31,35 @@ public class TF extends Frame {
 			}
 
 		});
-
 	}
 
 	@Override
 	public void paint(Graphics g) {
+		Color color=g.getColor();
+		g.setColor(Color.WHITE);
+		g.drawString("×Óµ¯:"+bullets.size(), 50, 100);
+		g.setColor(color);
 		tank.paint(g);
+		for(int i=0;i<bullets.size();i++){
+			bullets.get(i).paint(g);
+		}
 
 	}
-
+	
+	Image offImage=null;
+	@Override
+	public void update(Graphics g) {
+		if (offImage==null) {
+			offImage=this.createImage(GAME_WIDTH,GAME_HEIGHT);
+		}
+		Graphics gOffScreen=offImage.getGraphics();
+		Color color=gOffScreen.getColor();
+		gOffScreen.setColor(Color.BLACK);
+		gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		gOffScreen.setColor(color);
+		paint(gOffScreen);
+		g.drawImage(offImage, 0, 0, null);
+	}
 	class MyKeyListener extends KeyAdapter {
 
 		boolean bL = false;
@@ -47,6 +71,9 @@ public class TF extends Frame {
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 			switch (key) {
+			case KeyEvent.VK_CONTROL:
+				tank.fire();
+				break;
 			case KeyEvent.VK_LEFT:
 				bL = true;
 				break;
@@ -63,8 +90,6 @@ public class TF extends Frame {
 			default:
 				break;
 			}
-
-
 			seMovDir();
 		}
 

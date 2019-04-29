@@ -8,6 +8,7 @@ public class TT {
 		while(true){
 			Thread.sleep(100);
 			tf.repaint();
+			
 		}
 		
 	}
