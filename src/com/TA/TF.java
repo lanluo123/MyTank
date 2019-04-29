@@ -33,6 +33,7 @@ public class TF extends Frame {
 	@Override
 	public void paint(Graphics g) {
 		tank.paint(g);
+
 	}
 
 	class MyKeyListener extends KeyAdapter {
@@ -62,36 +63,44 @@ public class TF extends Frame {
 			default:
 				break;
 			}
+
+
 			seMovDir();
 		}
 
 		private void seMovDir() {
+			if(!bL&&!bD&&!bR&&!bU) tank.setMoving(false);
+			else {
+				tank.setMoving(true);
+				if (bD) tank.setDir(Dir.DOWN);
+				if (bL) tank.setDir(Dir.LEFT);
+				if (bR) tank.setDir(Dir.RIGHT);
+				if (bU) tank.setDir(Dir.UP);
+			}
 
-			if (bD) tank.setDir(Dir.DOWN);
-			if (bL) tank.setDir(Dir.LEFT);
-			if (bR) tank.setDir(Dir.RIGHT);
-			if (bU) tank.setDir(Dir.UP);
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
+
 			int key = e.getKeyCode();
 			switch (key) {
-			case KeyEvent.VK_LEFT:
-				bL = false;
-				break;
-			case KeyEvent.VK_UP:
-				bU = false;
-				break;
-			case KeyEvent.VK_RIGHT:
-				bR = false;
-				break;
-			case KeyEvent.VK_DOWN:
-				bD = false;
-				break;
-			default:
-				break;
+				case KeyEvent.VK_LEFT:
+					bL = false;
+					break;
+				case KeyEvent.VK_UP:
+					bU = false;
+					break;
+				case KeyEvent.VK_RIGHT:
+					bR = false;
+					break;
+				case KeyEvent.VK_DOWN:
+					bD = false;
+					break;
+				default:
+					break;
 			}
+
 			seMovDir();
 		}
 
