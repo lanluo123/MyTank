@@ -11,18 +11,14 @@ import org.omg.CORBA.INTERNAL;
 
 public class TF extends Frame {
 
-	int x = 200, y = 200;
-	private Dir dir = Dir.DOWN;
-
 	private static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
-	private static final int SPPED = 50;
+	Tank tank=new Tank(20,30,Dir.DOWN);
 
 	public TF() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
 		setTitle("tank war");
 		setVisible(true);
-
 		this.addKeyListener(new MyKeyListener());
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -31,19 +27,12 @@ public class TF extends Frame {
 			}
 
 		});
+
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		g.fillRect(x, y, 50, 50);
-		if (dir == Dir.DOWN)
-			y += SPPED;
-		if (dir == Dir.UP)
-			y -= SPPED;
-		if (dir == Dir.LEFT)
-			x -= SPPED;
-		if (dir == Dir.RIGHT)
-			x += SPPED;
+		tank.paint(g);
 	}
 
 	class MyKeyListener extends KeyAdapter {
@@ -77,14 +66,11 @@ public class TF extends Frame {
 		}
 
 		private void seMovDir() {
-			if (bD)
-				dir = Dir.DOWN;
-			if (bL)
-				dir = Dir.LEFT;
-			if (bR)
-				dir = Dir.RIGHT;
-			if (bU)
-				dir = Dir.UP;
+
+			if (bD) tank.setDir(Dir.DOWN);
+			if (bL) tank.setDir(Dir.LEFT);
+			if (bR) tank.setDir(Dir.RIGHT);
+			if (bU) tank.setDir(Dir.UP);
 		}
 
 		@Override

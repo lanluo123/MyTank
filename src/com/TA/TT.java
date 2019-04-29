@@ -6,7 +6,7 @@ public class TT {
 		// TODO Auto-generated method stub
 		TF tf=new TF();
 		while(true){
-			Thread.sleep(50);
+			Thread.sleep(100);
 			tf.repaint();
 		}
 		
