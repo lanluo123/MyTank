@@ -17,6 +17,7 @@ public class TF extends Frame {
 
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 	Tank tank=new Tank(20,30,Dir.DOWN,this);
+	//Tank tank2=new Tank(500, 300,Dir.DOWN,this);
 	ArrayList<Bullet> bullets=new ArrayList<>();
 	public TF() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -43,6 +44,7 @@ public class TF extends Frame {
 		for(int i=0;i<bullets.size();i++){
 			bullets.get(i).paint(g);
 		}
+		
 
 	}
 	
@@ -71,9 +73,7 @@ public class TF extends Frame {
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 			switch (key) {
-			case KeyEvent.VK_CONTROL:
-				tank.fire();
-				break;
+			
 			case KeyEvent.VK_LEFT:
 				bL = true;
 				break;
@@ -121,6 +121,9 @@ public class TF extends Frame {
 					break;
 				case KeyEvent.VK_DOWN:
 					bD = false;
+					break;
+				case KeyEvent.VK_CONTROL:
+					tank.fire();
 					break;
 				default:
 					break;

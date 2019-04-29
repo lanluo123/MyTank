@@ -16,6 +16,10 @@ public class Bullet {
     	this.tf=tf;
     }
     public void paint(Graphics g) {
+    	System.out.println("X"+x+"  y:"+y);
+    	if (!living) {
+			tf.bullets.remove(this);
+		}
     	 Color color=g.getColor();
     	 g.setColor(Color.YELLOW);
     	 g.fillOval(x, y, 10, 10);
@@ -23,16 +27,23 @@ public class Bullet {
     	 move();
     }
     public void move() {
-    	if (dir == Dir.DOWN)
-            y += SPPED;
-        if (dir == Dir.UP)
-            y -= SPPED;
-        if (dir == Dir.LEFT)
-            x -= SPPED;
-        if (dir == Dir.RIGHT)
-            x += SPPED;		
-        if(x<0||y<0||y>tf.GAME_HEIGHT||x>tf.GAME_WIDTH)
-        	tf.bullets.remove(this);
+    	switch (dir) {
+		case LEFT:
+			x -= SPPED;
+			break;
+		case UP:
+			y -= SPPED;
+			break;
+		case RIGHT:
+			x += SPPED;
+			break;
+		case DOWN:
+			y += SPPED;
+			break;
+		}
+        if(x<0||y<0||y>TF.GAME_HEIGHT||x>TF.GAME_WIDTH){
+        	living=false;
+        }
 	}
 	public Dir getDir() {
         return dir;
