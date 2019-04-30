@@ -18,7 +18,8 @@ public class TankFrame extends Frame {
 	Tank tank=new Tank(20,30,Dir.DOWN,this);
 	//Tank tank2=new Tank(500, 300,Dir.DOWN,this);
 	List<Bullet> bullets=new ArrayList<>();
-	List<Rect> rects=new ArrayList<>();
+	//List<Rect> rects=new ArrayList<>();
+	List<Tank> tanks=new ArrayList<>();
 	public TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
@@ -46,16 +47,25 @@ public class TankFrame extends Frame {
 		}
 		produRect();
 
-		for(int i=0;i<rects.size();i++){
+		/*for(int i=0;i<rects.size();i++){
 			rects.get(i).paint(g);
+		}*/
+		for(int i=0;i<tanks.size();i++){
+		    tanks.get(i).setMoving(false);
+			tanks.get(i).paint(g);
 		}
 
 	}
 
 	private void produRect() {
-		if (rects.size()==0){
+		/*if (rects.size()==0){
 			rects.add(new Rect(this));
 			rects.add(new Rect(this));
+		}*/
+
+        if (tanks.size()==0){
+            tanks.add(new Tank(this));
+            tanks.add(new Tank(this));
 		}
 	}
 

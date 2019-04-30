@@ -12,7 +12,7 @@ public class Tank {
     public boolean isMvoing(){
         return  moving;
     }
-
+    private  boolean living=true;
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
@@ -25,12 +25,38 @@ public class Tank {
         this.tankFrame = tankFrame;
     }
 
+    public Tank(TankFrame tankFrame) {
+        this.tankFrame = tankFrame;
+        this.x=(int) (Math.random()*TankFrame.GAME_WIDTH);
+        this.y=(int) (Math.random()*TankFrame.GAME_HEIGHT);
+    }
+
     public void paint(Graphics g) {
-        Color color=g.getColor();
-        g.setColor(Color.GRAY);
-        g.fillRect(x, y, 50, 50);
-        g.setColor(color);
-        move();
+        if(tankFrame.tanks.contains(this)){
+            for (int i=0;i<tankFrame.bullets.size();i++) {
+                int dirY =  tankFrame.bullets.get(i).getY()-y;
+                int dirX =  tankFrame.bullets.get(i).getX()-x;
+                if (dirX > 0 && dirX < 50 && dirY > 0 && dirY < 50) {
+                    System.out.println("dirX:" + dirX + " dirY" + dirY);
+                    System.out.println("炮弹位置X:" + tankFrame.bullets.get(i).getX() + " Y" + tankFrame.bullets.get(i).getY());
+                    System.out.println("坦克位置X:" + x + " Y" + y);
+                    this.living = false;
+                }
+            }
+            if(!living)
+                tankFrame.tanks.remove(this);
+            Color c=g.getColor();
+            g.setColor(Color.YELLOW);
+            g.fillRect(x,y,50,50);
+            g.setColor(c);
+        }
+       else{
+            Color color=g.getColor();
+            g.setColor(Color.GRAY);
+            g.fillRect(x, y, 50, 50);
+            g.setColor(color);
+            move();
+        }
     }
     private void move() {
     	 if (!moving) return;

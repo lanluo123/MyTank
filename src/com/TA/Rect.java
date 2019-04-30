@@ -3,7 +3,7 @@ package com.TA;
 import java.awt.*;
 
 public class Rect {
-    private  int x,y;
+    /*private  int x,y;
     private  TankFrame tf;
     private  boolean living=true;
     public Rect(TankFrame tf) {
@@ -26,11 +26,11 @@ public class Rect {
             }
         }
         if(!living)
-            tf.rects.remove(this);
+           tf.rects.remove(this);
         Color c=g.getColor();
         g.setColor(Color.YELLOW);
         g.fillRect(x,y,50,50);
         g.setColor(c);
-    }
+    }*/
 
 }
