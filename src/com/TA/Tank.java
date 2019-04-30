@@ -41,6 +41,7 @@ public class Tank {
                     System.out.println("炮弹位置X:" + tankFrame.bullets.get(i).getX() + " Y" + tankFrame.bullets.get(i).getY());
                     System.out.println("坦克位置X:" + x + " Y" + y);
                     this.living = false;
+                    tankFrame.bullets.remove(i);
                 }
             }
             if(!living)
