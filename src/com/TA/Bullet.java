@@ -6,19 +6,18 @@ import java.awt.Graphics;
 public class Bullet {
 	private static final int SPPED = 15;
     private  int x,y;
-    private Dir dir;
-	private TF tf;
-	private static boolean living=true;
-    public Bullet(int x,int y,Dir dir, TF tf) {
+    private Dir dir=Dir.DOWN;
+	private TankFrame tankFrame =null;
+	private  boolean living=true;
+    public Bullet(int x,int y,Dir dir, TankFrame tankFrame) {
     	this.dir = dir;
     	this.x = x;
     	this.y = y;
-    	this.tf=tf;
+    	this.tankFrame = tankFrame;
     }
     public void paint(Graphics g) {
-    	System.out.println("X"+x+"  y:"+y);
     	if (!living) {
-			tf.bullets.remove(this);
+			tankFrame.bullets.remove(this);
 		}
     	 Color color=g.getColor();
     	 g.setColor(Color.YELLOW);
@@ -26,7 +25,16 @@ public class Bullet {
     	 g.setColor(color);
     	 move();
     }
-    public void move() {
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void move() {
     	switch (dir) {
 		case LEFT:
 			x -= SPPED;
@@ -41,15 +49,8 @@ public class Bullet {
 			y += SPPED;
 			break;
 		}
-        if(x<0||y<0||y>TF.GAME_HEIGHT||x>TF.GAME_WIDTH){
+        if(x<0||y<0||y> TankFrame.GAME_HEIGHT||x> TankFrame.GAME_WIDTH){
         	living=false;
         }
 	}
-	public Dir getDir() {
-        return dir;
-    }
-
-    public void setDir(Dir dir) {
-        this.dir = dir;
-    }
 }

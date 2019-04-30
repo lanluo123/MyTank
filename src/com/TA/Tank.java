@@ -7,8 +7,8 @@ public class Tank {
     private  int x,y;
     private boolean moving=false;
     
-    private Dir dir;
-    private TF tf;
+    private Dir dir=Dir.DOWN;
+    private TankFrame tankFrame =null;
     public boolean isMvoing(){
         return  moving;
     }
@@ -17,11 +17,12 @@ public class Tank {
         this.moving = moving;
     }
 
-    public Tank(int x, int y, Dir dir, TF tf) {
+    public Tank(int x, int y, Dir dir, TankFrame tankFrame) {
+        super();
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tf=tf;
+        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics g) {
@@ -52,7 +53,7 @@ public class Tank {
     }
 
 	public void fire() {
-		tf.bullets.add(new Bullet(x, y, this.dir,this.tf));
+		tankFrame.bullets.add(new Bullet(this.x, this.y, this.dir,this.tankFrame));
 		
 	}
 
