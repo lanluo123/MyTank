@@ -46,17 +46,25 @@ public class Tank {
             }
             if(!living)
                 tankFrame.tanks.remove(this);
-            Color c=g.getColor();
-            g.setColor(Color.YELLOW);
-            g.fillRect(x,y,50,50);
-            g.setColor(c);
+            switch (dir){
+                case UP:
+                    g.drawImage(ImageMgr.tankU,x,y,null);
+                    break;
+                case DOWN:
+                    g.drawImage(ImageMgr.tankD,x,y,null);
+                    break;
+                case LEFT:
+                    g.drawImage(ImageMgr.tankL,x,y,null);
+                    break;
+                case RIGHT:
+                    g.drawImage(ImageMgr.tankR,x,y,null);
+                    break;
+                default:
+                    break;
+            }
         }
        else{
-            Color color=g.getColor();
-            g.setColor(Color.GRAY);
-            g.fillRect(x, y, 50, 50);
-            g.setColor(color);
-            move();
+            g.drawImage(ImageMgr.tankD,x,y,null);
         }
     }
     private void move() {
