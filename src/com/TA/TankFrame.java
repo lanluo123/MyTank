@@ -15,10 +15,9 @@ import java.util.ArrayList;
 public class TankFrame extends Frame {
 
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
-	Tank tank=new Tank(20,30,Dir.DOWN,this);
-	//Tank tank2=new Tank(500, 300,Dir.DOWN,this);
+	Tank tank=new Tank(20,30,Dir.DOWN,Group.GOOD,this);
 	List<Bullet> bullets=new ArrayList<>();
-	//List<Rect> rects=new ArrayList<>();
+	Explode explode=new Explode(200,300,this);
 	List<Tank> tanks=new ArrayList<>();
 	public TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -39,34 +38,23 @@ public class TankFrame extends Frame {
 	public void paint(Graphics g) {
 		Color color=g.getColor();
 		g.setColor(Color.WHITE);
-		g.drawString("�ӵ�:"+bullets.size(), 50, 100);
+		g.drawString("子弹数量"+bullets.size(), 50, 100);
+		g.drawString("坦克数量"+tanks.size(), 50, 110);
 		g.setColor(color);
 		tank.paint(g);
 		for(int i=0;i<bullets.size();i++){
 			bullets.get(i).paint(g);
 		}
-		produRect();
 
-		/*for(int i=0;i<rects.size();i++){
-			rects.get(i).paint(g);
-		}*/
 		for(int i=0;i<tanks.size();i++){
-		    tanks.get(i).setMoving(false);
 			tanks.get(i).paint(g);
 		}
-
-	}
-
-	private void produRect() {
-		/*if (rects.size()==0){
-			rects.add(new Rect(this));
-			rects.add(new Rect(this));
-		}*/
-
-        if (tanks.size()==0){
-            tanks.add(new Tank(this));
-            tanks.add(new Tank(this));
+		for(int i=0;i<bullets.size();i++){
+			for(int j=0;j<tanks.size();j++){
+				bullets.get(i).colldeWith(tanks.get(j));
+			}
 		}
+		explode.paint(g);
 	}
 
 	Image offImage=null;
