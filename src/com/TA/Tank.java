@@ -53,7 +53,8 @@ public class Tank {
     public void paint(Graphics g) {
         if(!living)
             tankFrame.tanks.remove(this);
-
+        if (this.group==Group.BAD)
+            setMoving(false);
         switch (dir){
                 case UP:
                     g.drawImage(ImageMgr.tankU,x,y,null);

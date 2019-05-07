@@ -19,6 +19,7 @@ public class TankFrame extends Frame {
 	List<Bullet> bullets=new ArrayList<>();
 	Explode explode=new Explode(200,300,this);
 	List<Tank> tanks=new ArrayList<>();
+	List<Explode> explodes=new ArrayList<>();
 	public TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
@@ -38,8 +39,9 @@ public class TankFrame extends Frame {
 	public void paint(Graphics g) {
 		Color color=g.getColor();
 		g.setColor(Color.WHITE);
-		g.drawString("子弹数量"+bullets.size(), 50, 100);
-		g.drawString("坦克数量"+tanks.size(), 50, 110);
+		g.drawString("子弹数量"+bullets.size(),50, 100);
+		g.drawString("坦克数量"+tanks.size(), 50, 120);
+		g.drawString("爆炸数量"+explodes.size(), 50, 130);
 		g.setColor(color);
 		tank.paint(g);
 		for(int i=0;i<bullets.size();i++){
@@ -54,7 +56,9 @@ public class TankFrame extends Frame {
 				bullets.get(i).colldeWith(tanks.get(j));
 			}
 		}
-		explode.paint(g);
+		for (int i = 0; i < explodes.size(); i++) {
+			explodes.get(i).paint(g);
+		}
 	}
 
 	Image offImage=null;

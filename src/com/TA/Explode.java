@@ -19,7 +19,7 @@ public class Explode {
 
         g.drawImage(ImageMgr.explodes[step++],x,y,null);
         if (step>=ImageMgr.explodes.length)
-            step=0;
+            tf.explodes.remove(this);
     }
     public int getX() {
         return x;
