@@ -6,8 +6,8 @@ import java.util.Random;
 public class Tank {
     private static final int SPPED = 10;
     private  int x,y;
-    public static  int WIDTH=ImageMgr.tankD.getWidth();
-    public static  int HEIGHT=ImageMgr.tankD.getHeight();
+    public static  int WIDTH=ImageMgr.gtankD.getWidth();
+    public static  int HEIGHT=ImageMgr.gtankD.getHeight();
     private boolean moving=true;
     private Group group=Group.BAD;
     private Dir dir=Dir.DOWN;
@@ -31,6 +31,9 @@ public class Tank {
         tankRec.y=y;
         tankRec.height=HEIGHT;
         tankRec.width=WIDTH;
+        if (this.group==Group.GOOD){
+            setMoving(false);
+        }
     }
 
     public int getX() {
@@ -58,23 +61,44 @@ public class Tank {
     public void paint(Graphics g) {
         if(!living)
             tankFrame.tanks.remove(this);
-        switch (dir){
+        if (group==Group.BAD){
+            switch (dir){
                 case UP:
-                    g.drawImage(ImageMgr.tankU,x,y,null);
+                    g.drawImage(ImageMgr.btankU,x,y,null);
                     break;
                 case DOWN:
-                    g.drawImage(ImageMgr.tankD,x,y,null);
+                    g.drawImage(ImageMgr.btankD,x,y,null);
                     break;
                 case LEFT:
-                    g.drawImage(ImageMgr.tankL,x,y,null);
+                    g.drawImage(ImageMgr.btankL,x,y,null);
                     break;
                 case RIGHT:
-                    g.drawImage(ImageMgr.tankR,x,y,null);
+                    g.drawImage(ImageMgr.btankR,x,y,null);
                     break;
                 default:
                     break;
 
+            }
         }
+        else{
+            switch (dir) {
+                case UP:
+                    g.drawImage(ImageMgr.gtankU, x, y, null);
+                    break;
+                case DOWN:
+                    g.drawImage(ImageMgr.gtankD, x, y, null);
+                    break;
+                case LEFT:
+                    g.drawImage(ImageMgr.gtankL, x, y, null);
+                    break;
+                case RIGHT:
+                    g.drawImage(ImageMgr.gtankR, x, y, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
        move();
     }
     private void move() {
