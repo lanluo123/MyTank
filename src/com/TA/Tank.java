@@ -101,8 +101,8 @@ public class Tank {
     }
 
 	public void fire() {
-        int dirX=x+this.HEIGHT/2-Bullet.HEIGHT/2;
-        int dirY=y+this.WIDTH/2-Bullet.WIDTH/2;
+        int dirY=y+this.HEIGHT/2-Bullet.HEIGHT/2;
+        int dirX=x+this.WIDTH/2-Bullet.WIDTH/2;
 		tankFrame.bullets.add(new Bullet(dirX, dirY, this.dir,this.getGroup(),this.tankFrame));
 		
 	}

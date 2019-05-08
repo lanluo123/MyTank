@@ -78,7 +78,9 @@ public class Bullet {
 			if (rectangleB.intersects(rectangleT)) {
 				this.die();
 				tank.die();
-				tankFrame.explodes.add(new Explode(tank.getX(),tank.getY(),tankFrame));
+				int DieX=tank.getX()+Tank.WIDTH/2-Explode.WIDTH/2;
+				int DieY=tank.getY()+Tank.HEIGHT/2-Explode.HEIGHT/2;
+				tankFrame.explodes.add(new Explode(DieX,DieY,tankFrame));
 			}
 		}
 	}
