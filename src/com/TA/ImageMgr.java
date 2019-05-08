@@ -22,7 +22,6 @@ public class ImageMgr {
 
             for (int i = 0; i < explodes.length; i++) {
                 explodes[i]= ImageIO.read(ImageMgr.class.getClassLoader().getResourceAsStream("images/e"+(i+1)+".gif"));
-
             }
 
         } catch (IOException e) {

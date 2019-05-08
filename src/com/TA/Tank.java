@@ -14,7 +14,7 @@ public class Tank {
     private TankFrame tankFrame =null;
     private  boolean living=true;
     Random random=new Random();
-
+    Rectangle tankRec=new Rectangle();
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
@@ -26,6 +26,11 @@ public class Tank {
         this.group=group;
         this.dir = dir;
         this.tankFrame = tankFrame;
+
+        tankRec.x=x;
+        tankRec.y=y;
+        tankRec.height=HEIGHT;
+        tankRec.width=WIDTH;
     }
 
     public int getX() {
@@ -83,6 +88,8 @@ public class Tank {
          if (dir == Dir.RIGHT)
              x += SPPED;
          checkBoundary();
+         tankRec.x=x;
+         tankRec.y=y;
          if (this.group==Group.BAD&&random.nextInt(100)>90)
          {
              this.fire();

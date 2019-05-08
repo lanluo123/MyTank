@@ -11,6 +11,8 @@ public class Bullet {
 	private Group group=Group.GOOD;
 	private TankFrame tankFrame = null;
 	private boolean living = true;
+	private Rectangle buRec=new Rectangle();
+
 
 	public Bullet(int x, int y, Dir dir, Group group,TankFrame tankFrame) {
 		this.dir = dir;
@@ -18,6 +20,11 @@ public class Bullet {
 		this.y = y;
 		this.group=group;
 		this.tankFrame = tankFrame;
+
+		buRec.x=x;
+		buRec.y=y;
+		buRec.height=HEIGHT;
+		buRec.width=WIDTH;
 	}
 
 	public void paint(Graphics g) {
@@ -67,15 +74,16 @@ public class Bullet {
 				y += SPPED;
 				break;
 		}
+		buRec.x=x;
+		buRec.y=y;
 		if (x < 0 || y < 0 || y > TankFrame.GAME_HEIGHT || x > TankFrame.GAME_WIDTH) {
 			living = false;
 		}
 	}
 	public void colldeWith(Tank tank){
 		if (this.group!=tank.getGroup()) {
-			Rectangle rectangleB = new Rectangle(this.x, this.y, Bullet.WIDTH, Bullet.HEIGHT);
-			Rectangle rectangleT = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
-			if (rectangleB.intersects(rectangleT)) {
+
+			if (buRec.intersects(tank.tankRec)) {
 				this.die();
 				tank.die();
 				int DieX=tank.getX()+Tank.WIDTH/2-Explode.WIDTH/2;
