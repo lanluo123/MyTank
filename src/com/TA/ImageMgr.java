@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ImageMgr {
+    private static  final ImageMgr imageMgr=new ImageMgr();
+    private ImageMgr(){}
+    public static ImageMgr getImageMgr(){
+        return imageMgr;
+    }
     public static BufferedImage gtankD,gtankU,gtankL,gtankR;
     public static BufferedImage btankD,btankU,btankL,btankR;
     public static BufferedImage bulletD,bulletU,bulletL,bulletR;
@@ -33,7 +38,6 @@ public class ImageMgr {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
     }
 }
