@@ -53,8 +53,6 @@ public class Tank {
     public void paint(Graphics g) {
         if(!living)
             tankFrame.tanks.remove(this);
-        if (this.group==Group.BAD)
-            setMoving(false);
         switch (dir){
                 case UP:
                     g.drawImage(ImageMgr.tankU,x,y,null);
@@ -84,11 +82,25 @@ public class Tank {
              x -= SPPED;
          if (dir == Dir.RIGHT)
              x += SPPED;
-         if (random.nextInt(100)>90)
+         checkBoundary();
+         if (this.group==Group.BAD&&random.nextInt(100)>90)
          {
              this.fire();
          }
+         if (this.group==Group.BAD&&random.nextInt(100)>90)
+         {
+             this.dir=Dir.values()[random.nextInt(4)];
+         }
 	}
+
+    private void checkBoundary() {
+        if (x<0) x=0;
+        if (y<28) y=28;
+        if (x>TankFrame.GAME_WIDTH-Tank.WIDTH) x=TankFrame.GAME_WIDTH-Tank.WIDTH;
+        if (y>TankFrame.GAME_HEIGHT-Tank.HEIGHT) y=TankFrame.GAME_HEIGHT-Tank.HEIGHT;
+
+    }
+
     public void die(){
         this.living=false;
     }
