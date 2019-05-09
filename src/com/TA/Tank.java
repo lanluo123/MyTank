@@ -144,10 +144,12 @@ public class Tank {
     }
 
 	public void fire() {
-        int dirY=y+this.HEIGHT/2-Bullet.HEIGHT/2;
+        /*int dirY=y+this.HEIGHT/2-Bullet.HEIGHT/2;
         int dirX=x+this.WIDTH/2-Bullet.WIDTH/2;
-		tankFrame.bullets.add(new Bullet(dirX, dirY, this.dir,this.getGroup(),this.tankFrame));
-		
+		tankFrame.bullets.add(new Bullet(dirX, dirY, this.dir,this.getGroup(),this.tankFrame));*/
+        ComFire comFire=new ComFire();
+        Attack tankAttack=new Attack(this,comFire,this.tankFrame);
+        tankAttack.attack();
 	}
 
 }

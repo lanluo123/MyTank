@@ -1,5 +1,5 @@
 package com.TA;
 
 public interface Fire {
-    public void fire();
+    public void fire(Tank tank,TankFrame tankFrame);
 }
