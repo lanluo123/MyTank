@@ -147,8 +147,15 @@ public class Tank {
         /*int dirY=y+this.HEIGHT/2-Bullet.HEIGHT/2;
         int dirX=x+this.WIDTH/2-Bullet.WIDTH/2;
 		tankFrame.bullets.add(new Bullet(dirX, dirY, this.dir,this.getGroup(),this.tankFrame));*/
-        ComFire comFire=new ComFire();
-        Attack tankAttack=new Attack(this,comFire,this.tankFrame);
+       // ComFire comFire=new ComFire();
+        Fire tankFire=null;
+        if (this.group == Group.GOOD) {
+            tankFire=new BigFire();
+        }
+        else {
+            tankFire=new ComFire();
+        }
+        Attack tankAttack=new Attack(this,tankFire,this.tankFrame);
         tankAttack.attack();
 	}
 
