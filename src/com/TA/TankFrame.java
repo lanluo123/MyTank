@@ -138,6 +138,9 @@ public class TankFrame extends Frame {
 				case KeyEvent.VK_CONTROL:
 					tank.fire();
 					break;
+				case KeyEvent.VK_L:
+					System.out.println("换肤");
+					break;
 				default:
 					break;
 			}

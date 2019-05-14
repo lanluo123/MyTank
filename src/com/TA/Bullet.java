@@ -13,8 +13,11 @@ public class Bullet {
 	private boolean living = true;
 	private Rectangle buRec=new Rectangle();
 
+	public Dir getDir() {
+		return dir;
+	}
 
-	public Bullet(int x, int y, Dir dir, Group group,TankFrame tankFrame) {
+	public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
 		this.dir = dir;
 		this.x = x;
 		this.y = y;

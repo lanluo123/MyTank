@@ -11,11 +11,17 @@ public class ImageMgr {
         return imageMgr;
     }
     public static BufferedImage gtankD,gtankU,gtankL,gtankR;
+    public static BufferedImage tankD,tankU,tankL,tankR;
     public static BufferedImage btankD,btankU,btankL,btankR;
     public static BufferedImage bulletD,bulletU,bulletL,bulletR;
     public static BufferedImage[] explodes=new BufferedImage[16];
     static {
         try {
+            tankU= ImageIO.read(ImageMgr.class.getClassLoader().getResourceAsStream("images/tankU.gif"));
+            tankL= ImageIO.read(ImageMgr.class.getClassLoader().getResourceAsStream("images/tankL.gif"));
+            tankD= ImageIO.read(ImageMgr.class.getClassLoader().getResourceAsStream("images/tankD.gif"));
+            tankR= ImageIO.read(ImageMgr.class.getClassLoader().getResourceAsStream("images/tankR.gif"));
+
             gtankU= ImageIO.read(ImageMgr.class.getClassLoader().getResourceAsStream("images/GoodTank1.png"));
             gtankL= ImageUtil.rotateImage(gtankU,-90);
             gtankR= ImageUtil.rotateImage(gtankU,90);;

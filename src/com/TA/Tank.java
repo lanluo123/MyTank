@@ -150,13 +150,19 @@ public class Tank {
        // ComFire comFire=new ComFire();
         Fire tankFire=null;
         if (this.group == Group.GOOD) {
-            tankFire=new BigFire();
+            String big=(String) PropertyMgr.getKey("BIG");
+
+            try {
+                tankFire=(BigFire)Class.forName(big).newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         else {
             tankFire=new ComFire();
         }
-        Attack tankAttack=new Attack(this,tankFire,this.tankFrame);
-        tankAttack.attack();
+        tankFire.fire(this,this.tankFrame);
 	}
 
 }
