@@ -1,4 +1,7 @@
-package com.TA;
+package com.TA.AbFactory;
+
+import com.TA.Bullet;
+import com.TA.ImageMgr;
 
 import java.awt.*;
 
