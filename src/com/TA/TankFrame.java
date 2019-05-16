@@ -135,7 +135,7 @@ public class TankFrame extends Frame {
 				case KeyEvent.VK_DOWN:
 					bD = false;
 					break;
-				case KeyEvent.VK_CONTROL:
+				case KeyEvent.VK_SHIFT:
 					tank.fire();
 					break;
 				default:
