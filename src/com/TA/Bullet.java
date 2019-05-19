@@ -2,24 +2,24 @@ package com.TA;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends GameObject {
 	private static final int SPPED = 15;
 	private int x, y;
 	public static int WIDTH = ImageMgr.bulletD.getWidth();
 	public static int HEIGHT = ImageMgr.bulletD.getHeight();
 	private Dir dir = Dir.DOWN;
 	private Group group=Group.GOOD;
-	private TankFrame tankFrame = null;
+	private GameModel gameModel = null;
 	private boolean living = true;
 	private Rectangle buRec=new Rectangle();
 
 
-	public Bullet(int x, int y, Dir dir, Group group,TankFrame tankFrame) {
+	public Bullet(int x, int y, Dir dir, Group group,GameModel gameModel) {
 		this.dir = dir;
 		this.x = x;
 		this.y = y;
 		this.group=group;
-		this.tankFrame = tankFrame;
+		this.gameModel = gameModel;
 
 		buRec.x=x;
 		buRec.y=y;
@@ -29,7 +29,7 @@ public class Bullet {
 
 	public void paint(Graphics g) {
 		if (!living) {
-			tankFrame.bullets.remove(this);
+			gameModel.bullets.remove(this);
 		}
 		switch (dir) {
 			case UP:
@@ -88,7 +88,7 @@ public class Bullet {
 				tank.die();
 				int DieX=tank.getX()+Tank.WIDTH/2-Explode.WIDTH/2;
 				int DieY=tank.getY()+Tank.HEIGHT/2-Explode.HEIGHT/2;
-				tankFrame.explodes.add(new Explode(DieX,DieY,tankFrame));
+				gameModel.explodes.add(new Explode(DieX,DieY,gameModel));
 			}
 		}
 	}

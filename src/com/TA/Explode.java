@@ -7,19 +7,19 @@ public class Explode {
     public static  int WIDTH=ImageMgr.explodes[0].getWidth();
     public static  int HEIGHT=ImageMgr.explodes[0].getHeight();
     private  boolean living =true;
-    TankFrame tf=null;
+    GameModel gameModel=null;
     private  int step=0;
-    public Explode(int x, int y,TankFrame tf) {
+    public Explode(int x, int y,GameModel gameModel) {
         this.x = x;
         this.y = y;
-        this.tf=tf;
+        this.gameModel=gameModel;
     }
 
     public void paint(Graphics g){
 
         g.drawImage(ImageMgr.explodes[step++],x,y,null);
         if (step>=ImageMgr.explodes.length)
-            tf.explodes.remove(this);
+            gameModel.explodes.remove(this);
     }
     public int getX() {
         return x;

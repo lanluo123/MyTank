@@ -15,11 +15,7 @@ import java.util.ArrayList;
 public class TankFrame extends Frame {
 
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
-	Tank tank=new Tank(20,30,Dir.DOWN,Group.GOOD,this);
-	List<Bullet> bullets=new ArrayList<>();
-	Explode explode=new Explode(200,300,this);
-	List<Tank> tanks=new ArrayList<>();
-	List<Explode> explodes=new ArrayList<>();
+	GameModel gameModel=new GameModel();
 	public TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
@@ -37,28 +33,7 @@ public class TankFrame extends Frame {
 
 	@Override
 	public void paint(Graphics g) {
-		Color color=g.getColor();
-		g.setColor(Color.WHITE);
-		g.drawString("子弹数量"+bullets.size(),50, 100);
-		g.drawString("坦克数量"+tanks.size(), 50, 120);
-		g.drawString("爆炸数量"+explodes.size(), 50, 140);
-		g.setColor(color);
-		tank.paint(g);
-		for(int i=0;i<bullets.size();i++){
-			bullets.get(i).paint(g);
-		}
-
-		for(int i=0;i<tanks.size();i++){
-			tanks.get(i).paint(g);
-		}
-		for(int i=0;i<bullets.size();i++){
-			for(int j=0;j<tanks.size();j++){
-				bullets.get(i).colldeWith(tanks.get(j));
-			}
-		}
-		for (int i = 0; i < explodes.size(); i++) {
-			explodes.get(i).paint(g);
-		}
+		gameModel.paint(g);
 	}
 
 	Image offImage=null;
@@ -107,6 +82,7 @@ public class TankFrame extends Frame {
 		}
 
 		private void seMovDir() {
+			Tank tank= gameModel.getMainTank();
 			if(!bL&&!bD&&!bR&&!bU) tank.setMoving(false);
 			else {
 				tank.setMoving(true);
@@ -136,7 +112,7 @@ public class TankFrame extends Frame {
 					bD = false;
 					break;
 				case KeyEvent.VK_SHIFT:
-					tank.fire();
+					gameModel.getMainTank().fire();
 					break;
 				default:
 					break;

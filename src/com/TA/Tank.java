@@ -1,9 +1,13 @@
 package com.TA;
 
+import com.TA.strategy.Attack;
+import com.TA.strategy.BigFire;
+import com.TA.strategy.Fire;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Tank {
+public class Tank extends GameObject{
     private static final int SPPED = 10;
     private  int x,y;
     public static  int WIDTH=ImageMgr.gtankD.getWidth();
@@ -11,7 +15,7 @@ public class Tank {
     private boolean moving=true;
     private Group group=Group.BAD;
     private Dir dir=Dir.DOWN;
-    private TankFrame tankFrame =null;
+    private GameModel gameModel =null;
     private  boolean living=true;
     Random random=new Random();
     Rectangle tankRec=new Rectangle();
@@ -19,13 +23,13 @@ public class Tank {
         this.moving = moving;
     }
 
-    public Tank(int x, int y, Dir dir, Group group,TankFrame tankFrame) {
+    public Tank(int x, int y, Dir dir, Group group,GameModel gameModel) {
         super();
         this.x = x;
         this.y = y;
         this.group=group;
         this.dir = dir;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
 
         tankRec.x=x;
         tankRec.y=y;
@@ -44,11 +48,6 @@ public class Tank {
         return y;
     }
 
-    public Tank(TankFrame tankFrame) {
-        this.tankFrame = tankFrame;
-        this.x=(int) (Math.random()*TankFrame.GAME_WIDTH);
-        this.y=(int) (Math.random()*TankFrame.GAME_HEIGHT);
-    }
 
     public void setGroup(Group group) {
         this.group = group;
@@ -60,7 +59,7 @@ public class Tank {
 
     public void paint(Graphics g) {
         if(!living)
-            tankFrame.tanks.remove(this);
+            gameModel.tanks.remove(this);
         if (group==Group.BAD){
             switch (dir){
                 case UP:
@@ -155,7 +154,7 @@ public class Tank {
         else {
             tankFire=new ComFire();
         }
-        Attack tankAttack=new Attack(this,tankFire,this.tankFrame);
+        Attack tankAttack=new Attack(this,tankFire,this.gameModel);
         tankAttack.attack();
 	}
 
