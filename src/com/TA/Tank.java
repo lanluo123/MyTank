@@ -10,26 +10,30 @@ import java.util.Random;
 public class Tank extends GameObject{
     private static final int SPPED = 10;
     private  int x,y;
+    private  int oldX,oldY;
     public static  int WIDTH=ImageMgr.gtankD.getWidth();
     public static  int HEIGHT=ImageMgr.gtankD.getHeight();
     private boolean moving=true;
     private Group group=Group.BAD;
     private Dir dir=Dir.DOWN;
-    private GameModel gameModel =null;
     private  boolean living=true;
     Random random=new Random();
+
+    public Rectangle getTankRec() {
+        return tankRec;
+    }
+
     Rectangle tankRec=new Rectangle();
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
 
-    public Tank(int x, int y, Dir dir, Group group,GameModel gameModel) {
+    public Tank(int x, int y, Dir dir, Group group) {
         super();
         this.x = x;
         this.y = y;
         this.group=group;
         this.dir = dir;
-        this.gameModel = gameModel;
 
         tankRec.x=x;
         tankRec.y=y;
@@ -39,7 +43,16 @@ public class Tank extends GameObject{
             setMoving(false);
         }
     }
+    public void back(){
+        this.x=oldX;
+        this.y=oldY;
+    }
+    public boolean collideWith(Tank t){
+        if (tankRec.intersects(t.tankRec)){
 
+        }
+        return  false;
+    }
     public int getX() {
         return x;
     }
@@ -59,7 +72,7 @@ public class Tank extends GameObject{
 
     public void paint(Graphics g) {
         if(!living)
-            gameModel.tanks.remove(this);
+            GameModel.getINSTANCE().remove(this);
         if (group==Group.BAD){
             switch (dir){
                 case UP:
@@ -101,6 +114,8 @@ public class Tank extends GameObject{
        move();
     }
     private void move() {
+        oldX=x;
+        oldY=y;
     	 if (!moving) return;
          if (dir == Dir.DOWN)
              y += SPPED;
@@ -111,17 +126,17 @@ public class Tank extends GameObject{
          if (dir == Dir.RIGHT)
              x += SPPED;
          checkBoundary();
-         tankRec.x=x;
-         tankRec.y=y;
          if (this.group==Group.BAD&&random.nextInt(100)>90)
          {
              this.fire();
          }
-         if (this.group==Group.BAD&&random.nextInt(100)>90)
+        if (this.group==Group.BAD&&random.nextInt(100)>90)
          {
              this.dir=Dir.values()[random.nextInt(4)];
          }
-	}
+        tankRec.x=x;
+        tankRec.y=y;
+    }
 
     private void checkBoundary() {
         if (x<0) x=0;
@@ -129,6 +144,9 @@ public class Tank extends GameObject{
         if (x>TankFrame.GAME_WIDTH-Tank.WIDTH) x=TankFrame.GAME_WIDTH-Tank.WIDTH;
         if (y>TankFrame.GAME_HEIGHT-Tank.HEIGHT) y=TankFrame.GAME_HEIGHT-Tank.HEIGHT;
 
+    }
+    public void stop(){
+        this.setMoving(false);
     }
 
     public void die(){
@@ -154,7 +172,7 @@ public class Tank extends GameObject{
         else {
             tankFire=new ComFire();
         }
-        Attack tankAttack=new Attack(this,tankFire,this.gameModel);
+        Attack tankAttack=new Attack(this,tankFire);
         tankAttack.attack();
 	}
 

@@ -1,5 +1,7 @@
 package com.TA;
 
+import com.TA.strategy.Fire;
+
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 public class TankFrame extends Frame {
 
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
-	GameModel gameModel=new GameModel();
 	public TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
@@ -33,7 +34,7 @@ public class TankFrame extends Frame {
 
 	@Override
 	public void paint(Graphics g) {
-		gameModel.paint(g);
+		GameModel.getINSTANCE().paint(g);
 	}
 
 	Image offImage=null;
@@ -82,7 +83,7 @@ public class TankFrame extends Frame {
 		}
 
 		private void seMovDir() {
-			Tank tank= gameModel.getMainTank();
+			Tank tank= GameModel.getINSTANCE().getMainTank();
 			if(!bL&&!bD&&!bR&&!bU) tank.setMoving(false);
 			else {
 				tank.setMoving(true);
@@ -112,7 +113,7 @@ public class TankFrame extends Frame {
 					bD = false;
 					break;
 				case KeyEvent.VK_SHIFT:
-					gameModel.getMainTank().fire();
+					GameModel.getINSTANCE().getMainTank().fire();
 					break;
 				default:
 					break;
@@ -122,5 +123,6 @@ public class TankFrame extends Frame {
 		}
 
 	}
+
 
 }

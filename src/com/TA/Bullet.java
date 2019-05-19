@@ -9,17 +9,22 @@ public class Bullet extends GameObject {
 	public static int HEIGHT = ImageMgr.bulletD.getHeight();
 	private Dir dir = Dir.DOWN;
 	private Group group=Group.GOOD;
-	private GameModel gameModel = null;
 	private boolean living = true;
 	private Rectangle buRec=new Rectangle();
 
+	public Group getGroup() {
+		return group;
+	}
 
-	public Bullet(int x, int y, Dir dir, Group group,GameModel gameModel) {
+	public Rectangle getBuRec() {
+		return buRec;
+	}
+
+	public Bullet(int x, int y, Dir dir, Group group ) {
 		this.dir = dir;
 		this.x = x;
 		this.y = y;
 		this.group=group;
-		this.gameModel = gameModel;
 
 		buRec.x=x;
 		buRec.y=y;
@@ -29,7 +34,7 @@ public class Bullet extends GameObject {
 
 	public void paint(Graphics g) {
 		if (!living) {
-			gameModel.bullets.remove(this);
+			GameModel.getINSTANCE().remove(this);
 		}
 		switch (dir) {
 			case UP:
@@ -80,7 +85,7 @@ public class Bullet extends GameObject {
 			living = false;
 		}
 	}
-	public void colldeWith(Tank tank){
+	public boolean colldeWith(Tank tank){
 		if (this.group!=tank.getGroup()) {
 
 			if (buRec.intersects(tank.tankRec)) {
@@ -88,9 +93,11 @@ public class Bullet extends GameObject {
 				tank.die();
 				int DieX=tank.getX()+Tank.WIDTH/2-Explode.WIDTH/2;
 				int DieY=tank.getY()+Tank.HEIGHT/2-Explode.HEIGHT/2;
-				gameModel.explodes.add(new Explode(DieX,DieY,gameModel));
+				GameModel.getINSTANCE().add(new Explode(DieX,DieY));
+				return true;
 			}
 		}
+		return  false;
 	}
 	public void die() {
 		this.living = false;
