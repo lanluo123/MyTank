@@ -2,14 +2,15 @@ package com.TA;
 
 import com.TA.strategy.Attack;
 import com.TA.strategy.BigFire;
+import com.TA.strategy.ComFire;
 import com.TA.strategy.Fire;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Tank extends GameObject{
+public class Tank extends GameObject  {
     private static final int SPPED = 10;
-    private  int x,y;
     private  int oldX,oldY;
     public static  int WIDTH=ImageMgr.gtankD.getWidth();
     public static  int HEIGHT=ImageMgr.gtankD.getHeight();
@@ -113,6 +114,17 @@ public class Tank extends GameObject{
 
        move();
     }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
+    }
+
     private void move() {
         oldX=x;
         oldY=y;

@@ -5,6 +5,7 @@ import com.TA.Cor.ColliderChain;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author XuMinghao
  * @create 2019/5/19-15:38
  */
-public class GameModel {
+public class GameModel implements  Serializable{
 
     private static GameModel INSTANCE =new GameModel();
 
@@ -85,6 +86,32 @@ public class GameModel {
                     chain.doCollide(o1,o2);
 
             }
+        }
+    }
+    public void Save(){
+        File f=new File("e:/mashibing/mytank.data");
+        ObjectOutputStream oos=null;
+        try {
+             oos=new ObjectOutputStream(new FileOutputStream(f));
+             oos.writeObject(this);
+//             oos.writeObject(tank);
+//             oos.writeObject(this.list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void Load(){
+        File f=new File("e:/mashibing/mytank.data");
+        ObjectInputStream ois=null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(f));
+//            tank=(Tank) ois.readObject();
+              INSTANCE=(GameModel) ois.readObject();
+//            list=(List) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Bullet extends GameObject {
 	private static final int SPPED = 15;
-	private int x, y;
 	public static int WIDTH = ImageMgr.bulletD.getWidth();
 	public static int HEIGHT = ImageMgr.bulletD.getHeight();
 	private Dir dir = Dir.DOWN;
@@ -54,6 +53,16 @@ public class Bullet extends GameObject {
 
 		}
 		move();
+	}
+
+	@Override
+	public int getWidth() {
+		return WIDTH;
+	}
+
+	@Override
+	public  int getHeight() {
+		return HEIGHT;
 	}
 
 	public int getX() {

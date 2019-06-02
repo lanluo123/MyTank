@@ -3,6 +3,8 @@ package com.TA.strategy;
 import com.TA.GameModel;
 import com.TA.Tank;
 
-public interface Fire {
+import java.io.Serializable;
+
+public interface Fire extends Serializable {
     public void fire(Tank tank);
 }

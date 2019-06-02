@@ -4,6 +4,7 @@ import com.TA.Bullet;
 import com.TA.GameObject;
 import com.TA.Wall;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author XuMinghao
  * @create 2019/5/19-17:17
  */
-public class ColliderChain {
+public class ColliderChain implements Serializable {
     private List<Collider> list=new ArrayList<>();
     public void add(Collider c){
         this.list.add(c);
@@ -20,6 +21,7 @@ public class ColliderChain {
     public ColliderChain() {
         add(new BulletTankCollier());
         add(new TankTCollider());
+        add(new TankWallColider());
         add(new WallBCollider());
     }
 

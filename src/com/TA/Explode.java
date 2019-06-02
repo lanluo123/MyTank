@@ -3,7 +3,6 @@ package com.TA;
 import java.awt.*;
 
 public class Explode extends GameObject{
-    private  int x,y;
     public static  int WIDTH=ImageMgr.explodes[0].getWidth();
     public static  int HEIGHT=ImageMgr.explodes[0].getHeight();
     private  boolean living =true;
@@ -19,6 +18,17 @@ public class Explode extends GameObject{
         if (step>=ImageMgr.explodes.length)
             GameModel.getINSTANCE().remove(this);
     }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
+    }
+
     public int getX() {
         return x;
     }

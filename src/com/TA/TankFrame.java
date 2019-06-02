@@ -115,6 +115,13 @@ public class TankFrame extends Frame {
 				case KeyEvent.VK_SHIFT:
 					GameModel.getINSTANCE().getMainTank().fire();
 					break;
+				case KeyEvent.VK_S:
+					GameModel.getINSTANCE().Save();
+					break;
+
+				case KeyEvent.VK_L:
+					GameModel.getINSTANCE().Load();
+					break;
 				default:
 					break;
 			}
