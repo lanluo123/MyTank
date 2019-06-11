@@ -27,7 +27,7 @@ public class Server {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new MsgDecode()).addLast(new ServerChannelHandler());
+                            ch.pipeline().addLast(new MsgJoinDecode()).addLast(new ServerChannelHandler());
                         }
                     })
                     .channel(NioServerSocketChannel.class)
@@ -62,7 +62,7 @@ class ServerChannelHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("server  read.............");
         try {
-            TankMsg tmg= (TankMsg) msg;
+            TankJoinMsg tmg= (TankJoinMsg) msg;
             System.out.println(tmg);
         }finally {
             ReferenceCountUtil.release(msg);

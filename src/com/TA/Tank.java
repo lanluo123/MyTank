@@ -2,10 +2,13 @@ package com.TA;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class Tank {
     private static final int SPPED = 10;
     private  int x,y;
+    private final UUID id=UUID.randomUUID();
+
     public static  int WIDTH=ImageMgr.gtankD.getWidth();
     public static  int HEIGHT=ImageMgr.gtankD.getHeight();
     private boolean moving=true;
@@ -36,6 +39,9 @@ public class Tank {
         }
     }
 
+    public UUID getId() {
+        return id;
+    }
     public int getX() {
         return x;
     }
@@ -165,4 +171,7 @@ public class Tank {
         tankFire.fire(this,this.tankFrame);
 	}
 
+    public boolean isMoving() {
+        return moving ;
+    }
 }

@@ -1,13 +1,17 @@
 package test;
 
+import com.TA.Dir;
+import com.TA.Group;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
-import net.MsgDecode;
-import net.MsgEncode;
-import net.TankMsg;
+import net.MsgJoinDecode;
+import net.MsgJoinEncode;
+import net.TankJoinMsg;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.UUID;
 
 /**
  * @author XuMinghao
@@ -16,9 +20,10 @@ import org.junit.Test;
 public class NettyTest {
     @Test
     public void TestMsgEncoder(){
-        TankMsg msg=new TankMsg(3,4);
-        EmbeddedChannel channel=new EmbeddedChannel(new MsgEncode());
-        channel.writeAndFlush(msg);
+        UUID uuid=UUID.randomUUID();
+        TankJoinMsg msg=new TankJoinMsg(3,4, Group.BAD, Dir.DOWN,false,uuid);
+        EmbeddedChannel channel=new EmbeddedChannel(new MsgJoinEncode());
+        channel.writeOutbound(msg);
         ByteBuf buf= (ByteBuf)  channel.readOutbound();
         int x=buf.readInt();
         int y=buf.readInt();
@@ -28,16 +33,17 @@ public class NettyTest {
     @Test
     public void TestMsgEncoder2(){
         ByteBuf buf= Unpooled.buffer();
-        TankMsg msg=new TankMsg(10,10);
-        EmbeddedChannel channel=new EmbeddedChannel(new MsgEncode(),new MsgDecode());
-        buf.writeInt(msg.x);
-        buf.writeInt(msg.y);
+        UUID uuid=UUID.randomUUID();
+        EmbeddedChannel channel=new EmbeddedChannel();
+        channel.pipeline().addLast(new MsgJoinDecode());
+        TankJoinMsg msg=new TankJoinMsg(10,10, Group.BAD, Dir.DOWN,false,uuid);
+        buf.writeBytes(msg.toBytes());
 
         channel.writeInbound(buf.duplicate());
 
-        TankMsg tankMsg=(TankMsg)  channel.readInbound();
+        TankJoinMsg tankJoinMsg =(TankJoinMsg)  channel.readInbound();
 
-        Assert.assertTrue(tankMsg.x==10&&tankMsg.y==10);
+        Assert.assertTrue(tankJoinMsg.x==10&& tankJoinMsg.y==10);
 
     }
 }

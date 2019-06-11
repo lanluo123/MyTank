@@ -3,6 +3,8 @@ package net; /**
  * @create 2019/6/5-22:09
  */
 
+import com.TA.Dir;
+import com.TA.Group;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -11,6 +13,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.ReferenceCountUtil;
+
+import java.util.UUID;
 
 /********************Client***********************/
 class Client{
@@ -65,7 +69,7 @@ class Client{
 class ClientInitial extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        ch.pipeline().addLast(new MsgEncode())
+        ch.pipeline().addLast(new MsgJoinEncode())
                      .addLast(new ClientHandler());
     }
 }
@@ -94,6 +98,6 @@ class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //        ByteBuf bf= Unpooled.copiedBuffer("hello".getBytes());
-        ctx.writeAndFlush(new TankMsg(2,3));
+//        ctx.writeAndFlush(new TankJoinMsg(2,3, Group.GOOD,Dir.DOWN,false, UUID.randomUUID()));
     }
 }
