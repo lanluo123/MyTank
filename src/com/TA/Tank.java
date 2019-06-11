@@ -1,20 +1,34 @@
 package com.TA;
 
+import net.TankJoinMsg;
+
 import java.awt.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class Tank {
     private static final int SPPED = 10;
     private  int x,y;
     public static  int WIDTH=ImageMgr.gtankD.getWidth();
     public static  int HEIGHT=ImageMgr.gtankD.getHeight();
-    private boolean moving=true;
+    private boolean moving=false;
     private Group group=Group.BAD;
     private Dir dir=Dir.DOWN;
+    private UUID id=UUID.randomUUID();
     private TankFrame tankFrame =null;
     private  boolean living=true;
     Random random=new Random();
     Rectangle tankRec=new Rectangle();
+
+    public Tank(TankJoinMsg msg) {
+        this.x=msg.x;
+        this.y=msg.y;
+        this.dir=msg.dir;
+        this.group=msg.group;
+        this.moving=msg.moving;
+        this.id=msg.uuid;
+    }
+
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
@@ -149,5 +163,13 @@ public class Tank {
 		tankFrame.bullets.add(new Bullet(dirX, dirY, this.dir,this.getGroup(),this.tankFrame));
 		
 	}
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public UUID getId() {
+        return id;
+    }
 
 }

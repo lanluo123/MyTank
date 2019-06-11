@@ -10,21 +10,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 
 public class TankFrame extends Frame {
-
+	public static final TankFrame INSTANCE=new TankFrame();
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
-	Tank tank=new Tank(20,30,Dir.DOWN,Group.GOOD,this);
+	Random r=new Random();
+	Tank tank=new Tank(r.nextInt(GAME_WIDTH),r.nextInt(GAME_HEIGHT),Dir.DOWN,Group.GOOD,this);
 	List<Bullet> bullets=new ArrayList<>();
 	Explode explode=new Explode(200,300,this);
 	List<Tank> tanks=new ArrayList<>();
 	List<Explode> explodes=new ArrayList<>();
-	public TankFrame() {
+	private TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setResizable(false);
 		setTitle("tank war");
-		setVisible(true);
 		this.addKeyListener(new MyKeyListener());
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -34,7 +36,24 @@ public class TankFrame extends Frame {
 
 		});
 	}
+	public void addTank(Tank t){
+		for (int i = 0; i < tanks.size(); i++) {
+			if (tanks.get(i).getId().equals(t.getId())){
+				return;
+			}
+		}
+		this.tanks.add(t);
+	}
 
+
+	public Tank getTank(UUID uuid) {
+		for (int i = 0; i <tanks.size() ; i++) {
+			if (tanks.get(i).getId().equals(uuid)){
+				return tanks.get(i);
+			}
+		}
+		return null;
+	}
 	@Override
 	public void paint(Graphics g) {
 		Color color=g.getColor();
@@ -75,6 +94,13 @@ public class TankFrame extends Frame {
 		paint(gOffScreen);
 		g.drawImage(offImage, 0, 0, null);
 	}
+
+	public Tank getMainTank() {
+		return this.tank;
+	}
+
+
+
 	class MyKeyListener extends KeyAdapter {
 
 		boolean bL = false;

@@ -1,15 +1,26 @@
 package com.TA;
 
+import net.Client;
+
 public class TT {
 
 	public static void main(String[] args) throws InterruptedException {
-		TankFrame tankFrame =new TankFrame();
-		for (int i=0;i<Integer.parseInt((String) PropertyMgr.getKey("initialTankAmount"));i++){
+		TankFrame tankFrame =TankFrame.INSTANCE;
+		tankFrame.setVisible(true);
+		/*for (int i=0;i<Integer.parseInt((String) PropertyMgr.getKey("initialTankAmount"));i++){
 			tankFrame.tanks.add(new Tank(50+i*80,100,Dir.DOWN,Group.BAD,tankFrame));
-		}
-		while(true){
-			Thread.sleep(100);
-			tankFrame.repaint();
-		}
+		}*/
+		new Thread(()->{
+			while(true){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				tankFrame.repaint();
+			}
+		});
+		Client c=new Client();
+		c.connect();
 	}
 }

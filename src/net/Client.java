@@ -5,6 +5,8 @@ package net; /**
 
 import com.TA.Dir;
 import com.TA.Group;
+import com.TA.Tank;
+import com.TA.TankFrame;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -17,7 +19,7 @@ import io.netty.util.ReferenceCountUtil;
 import java.util.UUID;
 
 /********************Client***********************/
-class Client{
+public class Client{
     Channel channel=null;
     public Client() {
 
@@ -41,7 +43,6 @@ class Client{
                                 }
                             }
                         });
-
                 f.sync();
                 System.out.println("....");
                 f.channel().closeFuture().sync();
@@ -62,6 +63,8 @@ class Client{
     }
 
     public static void main(String[] args) {
+        Client c = new Client();
+        c.connect();
     }
 }
 
@@ -70,34 +73,49 @@ class ClientInitial extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ch.pipeline().addLast(new MsgJoinEncode())
+                     .addLast(new MsgJoinDecode())
                      .addLast(new ClientHandler());
     }
 }
 
 
 /*****************Handler******************/
-class ClientHandler extends ChannelInboundHandlerAdapter {
-    @Override
+class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
+   /* @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf buf=null;
+
+       *//* ByteBuf buf=null;
         try{
             buf= (ByteBuf) msg;
             byte[] bs=new byte[buf.readableBytes()];
             buf.getBytes(buf.readerIndex(),bs);
-           /* String msgOld=ClientFrame.INSTANCE.ta.getText();
+           *//**//* String msgOld=ClientFrame.INSTANCE.ta.getText();
             String msgOld2=ClientFrame2.INSTANCE.ta.getText();
             ClientFrame.INSTANCE.ta.setText(msgOld+"\n"+new String(bs));
-            ClientFrame2.INSTANCE.ta.setText(msgOld+"\n"+new String(bs));*/
+            ClientFrame2.INSTANCE.ta.setText(msgOld+"\n"+new String(bs));*//**//*
             ctx.writeAndFlush(bs);
         }finally {
             if (buf!=null)
                 ReferenceCountUtil.release(buf);
+        }*//*
+    }*/
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg msg) throws Exception {
+        if (msg.uuid.equals(TankFrame.INSTANCE.getMainTank().getId())
+              || TankFrame.INSTANCE.getTank(msg.uuid)!=null){
+            return;
         }
+        System.out.println(msg);
+        Tank tank=new Tank(msg);
+        TankFrame.INSTANCE.addTank(tank);
+        channelHandlerContext.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+
 //        ByteBuf bf= Unpooled.copiedBuffer("hello".getBytes());
-//        ctx.writeAndFlush(new TankJoinMsg(2,3, Group.GOOD,Dir.DOWN,false, UUID.randomUUID()));
+        ctx.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
     }
 }

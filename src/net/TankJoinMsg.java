@@ -22,6 +22,7 @@ public class TankJoinMsg {
         this.x=t.getX();
         this.y=t.getY();
         this.group=t.getGroup();
+        this.dir=t.getDir();
         this.moving=t.isMoving();
         this.uuid=t.getId();
     }
