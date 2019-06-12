@@ -19,8 +19,7 @@ public class TT {
 				}
 				tankFrame.repaint();
 			}
-		});
-		Client c=new Client();
-		c.connect();
+		}).start();
+		Client.INSTANCE.connect();
 	}
 }

@@ -61,7 +61,7 @@ class ServerChannelHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        ctx.writeAndFlush(msg);
+        Server.clients.writeAndFlush(msg);
         /*System.out.println("server  read.............");
         try {
             TankJoinMsg tmg= (TankJoinMsg) msg;

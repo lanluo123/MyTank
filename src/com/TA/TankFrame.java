@@ -4,14 +4,11 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.List;
+import java.util.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.UUID;
 
 
 public class TankFrame extends Frame {
@@ -21,7 +18,7 @@ public class TankFrame extends Frame {
 	Tank tank=new Tank(r.nextInt(GAME_WIDTH),r.nextInt(GAME_HEIGHT),Dir.DOWN,Group.GOOD,this);
 	List<Bullet> bullets=new ArrayList<>();
 	Explode explode=new Explode(200,300,this);
-	List<Tank> tanks=new ArrayList<>();
+	Map<UUID,Tank> tanks=new HashMap<>();
 	List<Explode> explodes=new ArrayList<>();
 	private TankFrame() {
 		setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -37,22 +34,12 @@ public class TankFrame extends Frame {
 		});
 	}
 	public void addTank(Tank t){
-		for (int i = 0; i < tanks.size(); i++) {
-			if (tanks.get(i).getId().equals(t.getId())){
-				return;
-			}
-		}
-		this.tanks.add(t);
+		this.tanks.put(t.getId(),t);
 	}
 
 
 	public Tank getTank(UUID uuid) {
-		for (int i = 0; i <tanks.size() ; i++) {
-			if (tanks.get(i).getId().equals(uuid)){
-				return tanks.get(i);
-			}
-		}
-		return null;
+		return tanks.get(uuid);
 	}
 	@Override
 	public void paint(Graphics g) {
@@ -67,9 +54,7 @@ public class TankFrame extends Frame {
 			bullets.get(i).paint(g);
 		}
 
-		for(int i=0;i<tanks.size();i++){
-			tanks.get(i).paint(g);
-		}
+		tanks.values().stream().forEach((e)->{e.paint(g);});
 		for(int i=0;i<bullets.size();i++){
 			for(int j=0;j<tanks.size();j++){
 				bullets.get(i).colldeWith(tanks.get(j));

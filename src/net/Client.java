@@ -20,10 +20,9 @@ import java.util.UUID;
 
 /********************Client***********************/
 public class Client{
+    public static final Client INSTANCE =new Client();
     Channel channel=null;
-    public Client() {
-
-    }
+    private Client() {}
     public void connect() {
         EventLoopGroup group=new NioEventLoopGroup(1) ;
         Bootstrap bootstrap=new Bootstrap();
@@ -102,14 +101,7 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg msg) throws Exception {
-        if (msg.uuid.equals(TankFrame.INSTANCE.getMainTank().getId())
-              || TankFrame.INSTANCE.getTank(msg.uuid)!=null){
-            return;
-        }
-        System.out.println(msg);
-        Tank tank=new Tank(msg);
-        TankFrame.INSTANCE.addTank(tank);
-        channelHandlerContext.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
+        msg.handle();
     }
 
     @Override

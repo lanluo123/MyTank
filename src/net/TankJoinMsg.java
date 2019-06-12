@@ -3,6 +3,8 @@ package net;
 import com.TA.Dir;
 import com.TA.Group;
 import com.TA.Tank;
+import com.TA.TankFrame;
+import io.netty.channel.ChannelHandlerContext;
 
 import java.io.*;
 import java.util.UUID;
@@ -11,7 +13,7 @@ import java.util.UUID;
  * @author XuMinghao
  * @create 2019/6/9-0:01
  */
-public class TankJoinMsg {
+public class TankJoinMsg extends Msg{
     public   int x,y;
     public boolean moving;
     public Group group;
@@ -58,7 +60,7 @@ public class TankJoinMsg {
         }
 
     }
-
+    @Override
     public byte[] toBytes() {
         byte[] bytes=null;
         ByteArrayOutputStream baos=null;
@@ -109,7 +111,17 @@ public class TankJoinMsg {
                 '}';
     }
 
-
+    @Override
+    public void handle() {
+        if (this.uuid.equals(TankFrame.INSTANCE.getMainTank().getId())
+                || TankFrame.INSTANCE.getTank(this.uuid)!=null){
+            return;
+        }
+        System.out.println(this);
+        Tank tank=new Tank(this);
+        TankFrame.INSTANCE.addTank(tank);
+        Client.INSTANCE.channel.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
+    }
 }
 
 
