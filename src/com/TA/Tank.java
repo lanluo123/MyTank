@@ -11,7 +11,7 @@ public class Tank {
     private  int x,y;
     public static  int WIDTH=ImageMgr.gtankD.getWidth();
     public static  int HEIGHT=ImageMgr.gtankD.getHeight();
-    private boolean moving=false;
+    private boolean moving=true;
     private Group group=Group.BAD;
     private Dir dir=Dir.DOWN;
     private UUID id=UUID.randomUUID();

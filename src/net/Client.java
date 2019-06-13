@@ -54,10 +54,9 @@ public class Client{
 
     }
 
-    public void sendMsg(String msg){
-        ByteBuf bf= Unpooled.copiedBuffer(msg.getBytes());
+    public void sendMsg(Msg msg){
         if (channel!=null){
-            channel.writeAndFlush(bf);
+            channel.writeAndFlush(msg);
         }
     }
 

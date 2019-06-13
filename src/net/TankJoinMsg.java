@@ -38,6 +38,7 @@ public class TankJoinMsg extends Msg{
         this.moving=moving;
         this.uuid = uuid;
     }
+    @Override
     public void parse(byte[] bytes){
         DataInputStream dis=new DataInputStream(new ByteArrayInputStream(bytes));
         try{
@@ -60,6 +61,12 @@ public class TankJoinMsg extends Msg{
         }
 
     }
+
+    @Override
+    public MsgType getMsgType() {
+        return MsgType.TankJoin;
+    }
+
     @Override
     public byte[] toBytes() {
         byte[] bytes=null;
@@ -120,7 +127,7 @@ public class TankJoinMsg extends Msg{
         System.out.println(this);
         Tank tank=new Tank(this);
         TankFrame.INSTANCE.addTank(tank);
-        Client.INSTANCE.channel.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
+        Client.INSTANCE.sendMsg(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
     }
 }
 
