@@ -1,6 +1,6 @@
 package com.TA;
 
-import net.TankJoinMsg;
+import net.msg.TankJoinMsg;
 
 import java.awt.*;
 import java.util.Random;
@@ -19,6 +19,14 @@ public class Tank {
     private  boolean living=true;
     Random random=new Random();
     Rectangle tankRec=new Rectangle();
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     public Tank(TankJoinMsg msg) {
         this.x=msg.x;
@@ -72,7 +80,13 @@ public class Tank {
         return group;
     }
 
-    public void paint(Graphics g) {
+    public void paint(Color cc,Graphics g) {
+        Color c = g.getColor();
+        g.setColor(cc);
+        g.drawString(id.toString(), this.x, this.y - 20);
+        g.drawString("live=" + living, x, y-10);
+        g.setColor(c);
+
         if(!living)
             tankFrame.tanks.remove(this);
         if (group==Group.BAD){
@@ -116,7 +130,10 @@ public class Tank {
        move();
     }
     private void move() {
-    	 if (!moving) return;
+
+    	 if (!moving) {
+    	     return;
+         }
          if (dir == Dir.DOWN)
              y += SPPED;
          if (dir == Dir.UP)
@@ -154,6 +171,7 @@ public class Tank {
     }
 
     public void setDir(Dir dir) {
+
         this.dir = dir;
     }
 

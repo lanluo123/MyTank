@@ -1,5 +1,10 @@
 package com.TA;
 
+import net.Client;
+import net.msg.TankChangeMsg;
+import net.msg.TankStartMsg;
+import net.msg.TankStopMsg;
+
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -49,12 +54,12 @@ public class TankFrame extends Frame {
 		g.drawString("坦克数量"+tanks.size(), 50, 120);
 		g.drawString("爆炸数量"+explodes.size(), 50, 140);
 		g.setColor(color);
-		tank.paint(g);
+		tank.paint(Color.WHITE,g);
 		for(int i=0;i<bullets.size();i++){
 			bullets.get(i).paint(g);
 		}
 
-		tanks.values().stream().forEach((e)->{e.paint(g);});
+		tanks.values().stream().forEach((e)->{e.paint(Color.YELLOW,g);});
 		for(int i=0;i<bullets.size();i++){
 			for(int j=0;j<tanks.size();j++){
 				bullets.get(i).colldeWith(tanks.get(j));
@@ -99,15 +104,20 @@ public class TankFrame extends Frame {
 			switch (key) {
 			
 			case KeyEvent.VK_LEFT:
+				System.out.println("左");
 				bL = true;
 				break;
 			case KeyEvent.VK_UP:
+				System.out.println("上");
+
 				bU = true;
 				break;
 			case KeyEvent.VK_RIGHT:
+				System.out.println("右");
 				bR = true;
 				break;
 			case KeyEvent.VK_DOWN:
+				System.out.println("下");
 				bD = true;
 				break;
 
@@ -118,15 +128,24 @@ public class TankFrame extends Frame {
 		}
 
 		private void seMovDir() {
-			if(!bL&&!bD&&!bR&&!bU) tank.setMoving(false);
-			else {
-				tank.setMoving(true);
-				if (bD) tank.setDir(Dir.DOWN);
-				if (bL) tank.setDir(Dir.LEFT);
-				if (bR) tank.setDir(Dir.RIGHT);
-				if (bU) tank.setDir(Dir.UP);
+			Dir dir=tank.getDir();
+			if(!bL&&!bD&&!bR&&!bU){
+				tank.setMoving(false);
+				Client.INSTANCE.sendMsg(new TankStopMsg(INSTANCE.getMainTank()));
 			}
-
+			else {
+				if (bD) tank.setDir(Dir.DOWN);;
+				if (bL)  tank.setDir(Dir.LEFT);
+				if (bR)  tank.setDir(Dir.RIGHT);
+				if (bU)  tank.setDir(Dir.UP);
+				if (!tank.isMoving()){
+					Client.INSTANCE.sendMsg(new TankStartMsg(INSTANCE.getMainTank()));
+				}
+				tank.setMoving(true);
+				if (dir!=tank.getDir()){
+					Client.INSTANCE.sendMsg(new TankChangeMsg(INSTANCE.getMainTank()));
+				}
+			}
 		}
 
 		@Override

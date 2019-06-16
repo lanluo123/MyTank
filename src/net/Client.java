@@ -3,20 +3,13 @@ package net; /**
  * @create 2019/6/5-22:09
  */
 
-import com.TA.Dir;
-import com.TA.Group;
-import com.TA.Tank;
 import com.TA.TankFrame;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.ReferenceCountUtil;
-
-import java.util.UUID;
+import net.msg.TankJoinMsg;
 
 /********************Client***********************/
 public class Client{
@@ -55,6 +48,7 @@ public class Client{
     }
 
     public void sendMsg(Msg msg){
+        System.out.println(msg);
         if (channel!=null){
             channel.writeAndFlush(msg);
         }
@@ -70,15 +64,15 @@ public class Client{
 class ClientInitial extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        ch.pipeline().addLast(new MsgJoinEncode())
-                     .addLast(new MsgJoinDecode())
+        ch.pipeline().addLast(new MsgEncode())
+                     .addLast(new MsgDecode())
                      .addLast(new ClientHandler());
     }
 }
 
 
 /*****************Handler******************/
-class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
+class ClientHandler extends SimpleChannelInboundHandler<Msg> {
    /* @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
@@ -99,7 +93,7 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
     }*/
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Msg msg) throws Exception {
         msg.handle();
     }
 

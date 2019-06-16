@@ -1,10 +1,14 @@
 package com.TA;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class Bullet {
 	private static final int SPPED = 15;
 	private int x, y;
+	private UUID id=UUID.randomUUID();
+	private  UUID playerid;
+
 	public static int WIDTH = ImageMgr.bulletD.getWidth();
 	public static int HEIGHT = ImageMgr.bulletD.getHeight();
 	private Dir dir = Dir.DOWN;
@@ -14,7 +18,8 @@ public class Bullet {
 	private Rectangle buRec=new Rectangle();
 
 
-	public Bullet(int x, int y, Dir dir, Group group,TankFrame tankFrame) {
+
+	public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
 		this.dir = dir;
 		this.x = x;
 		this.y = y;
@@ -94,5 +99,37 @@ public class Bullet {
 	}
 	public void die() {
 		this.living = false;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public UUID getPlayerid() {
+		return playerid;
+	}
+
+	public void setPlayerid(UUID playerid) {
+		this.playerid = playerid;
+	}
+
+	public Dir getDir() {
+		return dir;
+	}
+
+	public void setDir(Dir dir) {
+		this.dir = dir;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 }

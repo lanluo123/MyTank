@@ -1,10 +1,12 @@
-package net;
+package net.msg;
 
 import com.TA.Dir;
 import com.TA.Group;
 import com.TA.Tank;
 import com.TA.TankFrame;
-import io.netty.channel.ChannelHandlerContext;
+import net.Client;
+import net.Msg;
+import net.MsgType;
 
 import java.io.*;
 import java.util.UUID;
@@ -13,7 +15,7 @@ import java.util.UUID;
  * @author XuMinghao
  * @create 2019/6/9-0:01
  */
-public class TankJoinMsg extends Msg{
+public class TankJoinMsg extends Msg {
     public   int x,y;
     public boolean moving;
     public Group group;
