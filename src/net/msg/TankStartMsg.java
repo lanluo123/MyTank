@@ -1,10 +1,8 @@
 package net.msg;
 
-import com.TA.Bullet;
-import com.TA.Dir;
-import com.TA.Tank;
-import com.TA.TankFrame;
-import io.netty.buffer.ByteBuf;
+import com.tank.Dir;
+import com.tank.Tank;
+import com.tank.TankFrame;
 import net.Msg;
 import net.MsgType;
 

@@ -1,4 +1,7 @@
-package com.TA;
+package com.tank;
+
+import net.Client;
+import net.msg.TankDieMsg;
 
 import java.awt.*;
 import java.util.UUID;
@@ -19,9 +22,10 @@ public class Bullet {
 
 
 
-	public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
+	public Bullet(int x, int y, Dir dir,UUID playerid, Group group, TankFrame tankFrame) {
 		this.dir = dir;
 		this.x = x;
+		this.playerid=playerid;
 		this.y = y;
 		this.group=group;
 		this.tankFrame = tankFrame;
@@ -86,16 +90,17 @@ public class Bullet {
 		}
 	}
 	public void colldeWith(Tank tank){
-		if (this.group!=tank.getGroup()) {
-
-			if (buRec.intersects(tank.tankRec)) {
+		if (this.playerid.equals(tank.getId()))
+				return;
+		if (this.living&&tank.isLiving()&&buRec.intersects(tank.tankRec)) {
 				this.die();
 				tank.die();
-				int DieX=tank.getX()+Tank.WIDTH/2-Explode.WIDTH/2;
-				int DieY=tank.getY()+Tank.HEIGHT/2-Explode.HEIGHT/2;
-				tankFrame.explodes.add(new Explode(DieX,DieY,tankFrame));
-			}
+			TankDieMsg tdmsg=new TankDieMsg(tank,this);
+			System.out.println("发送"+tdmsg);
+			Client.INSTANCE.sendMsg(tdmsg);
+
 		}
+
 	}
 	public void die() {
 		this.living = false;

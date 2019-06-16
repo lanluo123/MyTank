@@ -3,10 +3,7 @@ package net;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import net.msg.TankChangeMsg;
-import net.msg.TankJoinMsg;
-import net.msg.TankStartMsg;
-import net.msg.TankStopMsg;
+import net.msg.*;
 
 import java.util.List;
 
@@ -20,8 +17,8 @@ public class MsgDecode extends ByteToMessageDecoder {
         if (in.readableBytes()<8)  return;
         in.markReaderIndex();
         int index =in.readInt();
-        System.out.println("接受信息index"+index);
         MsgType type=MsgType.values()[index];
+        System.out.println("接受信息index"+type);
         int length=in.readInt();
         if (in.readableBytes()<length){
                 in.resetReaderIndex();
@@ -44,6 +41,11 @@ public class MsgDecode extends ByteToMessageDecoder {
                 case TankDirChange:
                     msg = new TankChangeMsg();
                     break;
+                case BulletNew:
+                    msg = new NewBulletMsg();
+                    break;
+                case TankDie:
+                    msg = new TankDieMsg();
                 default:
                     break;
 

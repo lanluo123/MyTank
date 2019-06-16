@@ -13,7 +13,7 @@ public class MsgEncode extends MessageToByteEncoder<Msg> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Msg msg, ByteBuf out) throws Exception {
         out.writeInt(msg.getMsgType().ordinal());
-        System.out.println("发送信息index"+msg.getMsgType().ordinal());
+        System.out.println("发送信息"+msg.getMsgType());
         byte[] bytes=msg.toBytes();
         out.writeInt(bytes.length);
         out.writeBytes(bytes);

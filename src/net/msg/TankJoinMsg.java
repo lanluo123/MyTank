@@ -1,9 +1,9 @@
 package net.msg;
 
-import com.TA.Dir;
-import com.TA.Group;
-import com.TA.Tank;
-import com.TA.TankFrame;
+import com.tank.Dir;
+import com.tank.Group;
+import com.tank.Tank;
+import com.tank.TankFrame;
 import net.Client;
 import net.Msg;
 import net.MsgType;
@@ -21,6 +21,7 @@ public class TankJoinMsg extends Msg {
     public Group group;
     public Dir dir;
     public UUID uuid ;
+    public boolean living ;
 
     public TankJoinMsg(Tank t){
         this.x=t.getX();
@@ -29,6 +30,7 @@ public class TankJoinMsg extends Msg {
         this.dir=t.getDir();
         this.moving=t.isMoving();
         this.uuid=t.getId();
+        this.living=t.isLiving();
     }
     public TankJoinMsg(){}
     public TankJoinMsg(int x, int y, Group group, Dir dir, boolean moving,UUID uuid) {
@@ -50,6 +52,7 @@ public class TankJoinMsg extends Msg {
             this.group=Group.values()[dis.readInt()];
             this.dir=Dir.values()[dis.readInt()];
             this.uuid=new UUID(dis.readLong(),dis.readLong());
+            this.living=dis.readBoolean();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -84,6 +87,7 @@ public class TankJoinMsg extends Msg {
             dos.writeInt(dir.ordinal());
             dos.writeLong(uuid.getMostSignificantBits());
             dos.writeLong(uuid.getLeastSignificantBits());
+            dos.writeBoolean(living);
             bytes=baos.toByteArray();
         }catch (Exception e){
             e.printStackTrace();
@@ -114,6 +118,7 @@ public class TankJoinMsg extends Msg {
                 "x=" + x +
                 ", y=" + y +
                 ", moving=" + moving +
+                ", living=" + living +
                 ", group=" + group +
                 ", dir=" + dir +
                 ", uuid=" + uuid +

@@ -1,7 +1,7 @@
 package test;
 
-import com.TA.Dir;
-import com.TA.Group;
+import com.tank.Dir;
+import com.tank.Group;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;

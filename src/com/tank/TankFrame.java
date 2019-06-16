@@ -1,4 +1,4 @@
-package com.TA;
+package com.tank;
 
 import net.Client;
 import net.msg.TankChangeMsg;
@@ -22,7 +22,7 @@ public class TankFrame extends Frame {
 	Random r=new Random();
 	Tank tank=new Tank(r.nextInt(GAME_WIDTH),r.nextInt(GAME_HEIGHT),Dir.DOWN,Group.GOOD,this);
 	List<Bullet> bullets=new ArrayList<>();
-	Explode explode=new Explode(200,300,this);
+	Explode explode=new Explode(200,300);
 	Map<UUID,Tank> tanks=new HashMap<>();
 	List<Explode> explodes=new ArrayList<>();
 	private TankFrame() {
@@ -41,7 +41,7 @@ public class TankFrame extends Frame {
 	public void addTank(Tank t){
 		this.tanks.put(t.getId(),t);
 	}
-
+	public void addBullet(Bullet b){this.bullets.add(b);}
 
 	public Tank getTank(UUID uuid) {
 		return tanks.get(uuid);
@@ -59,10 +59,13 @@ public class TankFrame extends Frame {
 			bullets.get(i).paint(g);
 		}
 
-		tanks.values().stream().forEach((e)->{e.paint(Color.YELLOW,g);});
+		tanks.values().stream().forEach((e)->{
+			e.paint(Color.YELLOW,g);
+		});
+		Collection<Tank>  tankc=tanks.values();
 		for(int i=0;i<bullets.size();i++){
-			for(int j=0;j<tanks.size();j++){
-				bullets.get(i).colldeWith(tanks.get(j));
+			for(Tank t:tankc){
+				bullets.get(i).colldeWith(t);
 			}
 		}
 		for (int i = 0; i < explodes.size(); i++) {
@@ -89,6 +92,14 @@ public class TankFrame extends Frame {
 		return this.tank;
 	}
 
+	public Bullet getBullet(UUID bulletId) {
+		for (int i=0;i<bullets.size();i++){
+			if (bulletId.equals(bullets.get(i).getId())){
+				return bullets.get(i);
+			}
+		}
+		return  null;
+	}
 
 
 	class MyKeyListener extends KeyAdapter {
@@ -147,6 +158,7 @@ public class TankFrame extends Frame {
 				}
 			}
 		}
+
 
 		@Override
 		public void keyReleased(KeyEvent e) {

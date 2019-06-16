@@ -1,8 +1,8 @@
 package net.msg;
 
-import com.TA.Dir;
-import com.TA.Tank;
-import com.TA.TankFrame;
+import com.tank.Dir;
+import com.tank.Tank;
+import com.tank.TankFrame;
 import net.Msg;
 import net.MsgType;
 

@@ -1,7 +1,10 @@
-package com.TA;
+package com.tank;
 
+import net.Client;
+import net.msg.NewBulletMsg;
 import net.msg.TankJoinMsg;
 
+import javax.naming.NamingEnumeration;
 import java.awt.*;
 import java.util.Random;
 import java.util.UUID;
@@ -28,6 +31,10 @@ public class Tank {
         this.y = y;
     }
 
+    public boolean isLiving() {
+        return living;
+    }
+
     public Tank(TankJoinMsg msg) {
         this.x=msg.x;
         this.y=msg.y;
@@ -35,6 +42,12 @@ public class Tank {
         this.group=msg.group;
         this.moving=msg.moving;
         this.id=msg.uuid;
+        this.living=msg.living;
+
+        this.tankRec.x=x;
+        this.tankRec.y=y;
+        this.tankRec.height=HEIGHT;
+        this.tankRec.width=WIDTH;
     }
 
     public void setMoving(boolean moving) {
@@ -87,8 +100,14 @@ public class Tank {
         g.drawString("live=" + living, x, y-10);
         g.setColor(c);
 
-        if(!living)
-            tankFrame.tanks.remove(this);
+        if(!living){
+            this.moving=false;
+            Color ccc = g.getColor();
+            g.setColor(Color.WHITE);
+            g.drawRect(x, y, WIDTH, HEIGHT);
+            g.setColor(ccc);
+            return;
+        }
         if (group==Group.BAD){
             switch (dir){
                 case UP:
@@ -145,14 +164,15 @@ public class Tank {
          checkBoundary();
          tankRec.x=x;
          tankRec.y=y;
-         if (this.group==Group.BAD&&random.nextInt(100)>90)
+        System.out.println("tankRec修改"+tankRec.x+"..."+tankRec.y);
+        /* if (this.group==Group.BAD&&random.nextInt(100)>90)
          {
              this.fire();
          }
          if (this.group==Group.BAD&&random.nextInt(100)>90)
          {
              this.dir=Dir.values()[random.nextInt(4)];
-         }
+         }*/
 	}
 
     private void checkBoundary() {
@@ -165,6 +185,9 @@ public class Tank {
 
     public void die(){
         this.living=false;
+        int DieX=this.x+Tank.WIDTH/2-Explode.WIDTH/2;
+        int DieY=this.y+Tank.HEIGHT/2-Explode.HEIGHT/2;
+        TankFrame.INSTANCE.explodes.add(new Explode(DieX,DieY));
     }
 	public Dir getDir() {
         return dir;
@@ -178,7 +201,12 @@ public class Tank {
 	public void fire() {
         int dirY=y+this.HEIGHT/2-Bullet.HEIGHT/2;
         int dirX=x+this.WIDTH/2-Bullet.WIDTH/2;
-		tankFrame.bullets.add(new Bullet(dirX, dirY, this.dir,this.getGroup(),this.tankFrame));
+		Bullet b=new Bullet(dirX, dirY, this.dir,this.id,this.getGroup(),this.tankFrame);
+		tankFrame.bullets.add(b);
+        NewBulletMsg bmsg=new NewBulletMsg(b);
+        bmsg.setGroup(Group.BAD);
+        System.out.println("发送"+bmsg);
+        Client.INSTANCE.sendMsg(bmsg);
 		
 	}
 

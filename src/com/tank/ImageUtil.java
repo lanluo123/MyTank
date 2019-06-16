@@ -1,4 +1,4 @@
-package com.TA;
+package com.tank;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
